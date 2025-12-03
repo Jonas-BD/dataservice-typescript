@@ -67,3 +67,35 @@ export const createRecord = async (req: Request, res: Response) => {
         return res.status(500).json({ error: 'Der gik noget galt, prøv igen senere' })
     }
 }
+
+export const updateRecord = async (req: Request, res: Response) => {
+    const id = Number(req.params.id)
+
+    if(!id) {
+        return res.status(400).json({ error: 'Id har ingen værdi'})
+    }
+
+    const { category, brand, model, year, price, fueltype } = req.body
+
+    if (!category || !brand || !model || !year || !price || !fueltype) {
+        return res.status(400).json({ error: 'Du skal udfylde alle felter' })
+    }
+
+    try {
+        const data = await prisma.car.update({
+            where: { id },
+            data: {
+                category,
+                brand,
+                model,
+                year: Number(year),
+                price,
+                fueltype
+            }
+        })
+        return res.status(200).json(data)
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ error: 'Der skete en fejl'})
+    }
+}
