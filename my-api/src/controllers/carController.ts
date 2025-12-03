@@ -99,3 +99,24 @@ export const updateRecord = async (req: Request, res: Response) => {
         return res.status(500).json({ error: 'Der skete en fejl'})
     }
 }
+
+export const deleteRecord = async (req: Request, res: Response) => {
+    const id = Number(req.params.id)
+
+    if(!id) {
+        return res.status(400).json({ error: 'Id har ingen værdy' })
+    }
+
+    try {
+        const data = await prisma.car.delete({
+            where: { id }
+        })
+        res.status(200).json({
+            message: `Bilen er sletter`,
+            deleteId: data.id
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Der skete en fejl'})
+    }
+}
