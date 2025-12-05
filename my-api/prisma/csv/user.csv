@@ -1,0 +1,3 @@
+id,firstname,lastname,email,password,role,isActive
+1,Admin,Admin,admin@admin.dk,password,"ADMIN",true
+2,Bo,Doe,test@example.com,password,"USER",true
